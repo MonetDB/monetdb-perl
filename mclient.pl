@@ -6,13 +6,13 @@
 #
 # Copyright 1997 - July 2008 CWI, August 2008 - 2016 MonetDB B.V.
 
-use Mapi;
+use MonetDB::CLI::Mapi;
 
 my $db = shift || '';
 my $port = shift || 50000;
 
 my ($monet, $line);
-$monet = new Mapi('localhost', $port, 'monetdb', 'monetdb', 'sql', $db, 0);
+$monet = new MonetDB::CLI::Mapi('localhost', $port, 'monetdb', 'monetdb', 'sql', $db, 0);
 
 print "> ";
 while ( !(($line=<>) =~ /\q/) ){

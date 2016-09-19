@@ -4,13 +4,15 @@
 #
 # Copyright 1997 - July 2008 CWI, August 2008 - 2016 MonetDB B.V.
 
-package Mapi;
+package MonetDB::CLI::Mapi;
 
 use strict;
 use Socket;
 use IO::Socket;
 use Digest::MD5 'md5_hex';
 use Digest::SHA qw(sha1_hex sha256_hex sha512_hex);
+
+our $VERSION = '1.00';
 
 sub pass_chal {
   my ($passwd, @challenge) = @_;
@@ -97,7 +99,7 @@ sub new {
 
   my $passchal = pass_chal($passwd, @challenge) || die;
 
-  # content_byteorder(BIG/LIT):user:{cypher_algo}mypasswordchallenge_cyphered:lang:database: 
+  # content_byteorder(BIG/LIT):user:{cypher_algo}mypasswordchallenge_cyphered:lang:database:
   $self->putblock("LIT:$user:$passchal:$lang:$db:\n");
   my $prompt = $self->getblock();
   if ($prompt =~ /^\^mapi:monetdb:/) {
@@ -105,7 +107,7 @@ sub new {
     $self->{socket}->close;
     print "Following redirect: $prompt\n" if ($self->{trace});
     my @tokens = split(/[\n\/:\?]+/, $prompt); # dirty, but it's Perl anyway
-    return new Mapi($tokens[3], $tokens[4], $user, $passwd, $lang, $tokens[5], $trace);
+    return new MonetDB::CLI::Mapi($tokens[3], $tokens[4], $user, $passwd, $lang, $tokens[5], $trace);
   } elsif ($prompt =~ /^\^mapi:merovingian:\/\/proxy/) {
     # proxied redirect
     do {
@@ -125,7 +127,7 @@ sub new {
 # How to create a duplicate
 sub clone {
   my ($self,$src)= @_;
-  bless($self,"Mapi");
+  bless($self,"MonetDB::CLI::Mapi");
   print "cloning\n" if ($self->{trace});
   $self->{host} = $src->{host};
   $self->{port} = $src->{port};
@@ -177,7 +179,7 @@ sub resetState {
   print "resetState\n" if ($self->{trace});
   $self->{errstr}="";
   $self->{error}=0;
-  $self->{active}=0;  
+  $self->{active}=0;
 }
 
 #packge the request and ship it, the back-end reads blocks!
@@ -228,7 +230,7 @@ sub getRow {
   my $row = $self->{lines}[$self->{next}++];
   my @chars = split(//, $row,3);
 
-  if ($chars[0] eq '!') { 
+  if ($chars[0] eq '!') {
     $self->error($row);
     my $i = 1;
     while ($self->{lines}[$i] =~ '!') {
@@ -251,7 +253,7 @@ sub getRow {
     $self->{active} = 1;
   } elsif ($chars[0] eq '=') {
     # xml result line
-    $self->{row} = substr($row, 1); # skip = 
+    $self->{row} = substr($row, 1); # skip =
     $self->{active} = 1;
   } elsif ($chars[0] eq '^') {
     # ^ redirect, ie use different server
@@ -321,16 +323,16 @@ sub getBlock {
       $self->{row} = "" . $cnt;
       $self->{next} = $cnt; # all done
       return -2;
-    } elsif ($chars[1] eq '3') { # transaction 
+    } elsif ($chars[1] eq '3') { # transaction
       # nothing todo
-    } elsif ($chars[1] eq '4') { # auto_commit 
+    } elsif ($chars[1] eq '4') { # auto_commit
       my ($dummy,$ac) = split(' ', $header);
       if ($ac eq 't') {
         $self->{auto_commit} = 1;
       } else {
         $self->{auto_commit} = 0;
       }
-    } elsif ($chars[1] eq '5') { # prepare 
+    } elsif ($chars[1] eq '5') { # prepare
       my ($dummy,$id,$cnt,$nrcols,$replysize) = split(' ', $header);
       # TODO parse result, rows (type, digits, scale)
       $self->{count} = $cnt;
@@ -341,7 +343,7 @@ sub getBlock {
     }
   } else {
     return $self->getRow();
-  } 
+  }
   return $self->{active};
 }
 
@@ -365,7 +367,7 @@ sub getReply {
       $self->{skip_in}++;
     }
     $self->{active} = 0;
-  } 
+  }
   return $self->{active};
 
 }

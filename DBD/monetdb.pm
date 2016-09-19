@@ -5,7 +5,7 @@ use DBI();
 use Encode();
 use MonetDB::CLI();
 
-our $VERSION = '0.10';
+our $VERSION = '1.00';
 our $drh = undef;
 
 require DBD::monetdb::GetInfo;
@@ -293,7 +293,7 @@ SQL
     $sql .=   " order by table_type, table_schem, table_name\n";
     my $sth = $dbh->prepare($sql) or return;
     $sth->execute(@bv) or return;
-    
+
     $dbh->set_err(0,"Catalog parameter c has to be an empty string, as MonetDB does not support multiple catalogs") if $c ne "";
     return $sth;
 }
@@ -301,7 +301,7 @@ SQL
 
 sub table_info {
     my($dbh, $c, $s, $t, $tt) = @_;
-            
+
     if ( defined $c && defined $s && defined $t ) {
         if    ( $c eq '%' && $s eq ''  && $t eq '') {
             return monetdb_catalog_info($dbh);

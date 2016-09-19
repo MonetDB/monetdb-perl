@@ -2,11 +2,11 @@ package MonetDB::CLI::MapiPP;
 
 use Text::ParseWords();
 use Encode ();
-use Mapi;
+use MonetDB::CLI::Mapi;
 use strict;
 use warnings;
 
-our $VERSION = '0.04';
+our $VERSION = '1.00';
 
 
 my %unescape = ( n => "\n", t => "\t", r => "\r", f => "\f");
@@ -26,7 +26,7 @@ sub connect
 {
   my ($class, $host, $port, $user, $pass, $lang, $db) = @_;
 
-  my $h = new Mapi($host, $port, $user, $pass, $lang, $db, 0)
+  my $h = new MonetDB::CLI::Mapi($host, $port, $user, $pass, $lang, $db, 0)
   	or die "Making connection failed: $@";
 
   bless { h => $h },'MonetDB::CLI::MapiPP::Cxn';
@@ -181,7 +181,7 @@ sub fetch
   my ($self) = @_;
 
   return if ++$self->{i} >= $self->{affrows};
-  
+
   if ($self->{id}) {
     utf8::decode($self->{h}->{row});
     my @cols = split(/,\t */, $self->{h}->{row});
@@ -196,7 +196,7 @@ sub fetch
   } else {
     $self->{currow} = $self->{rows}[$self->{i}];
   }
-  
+
   return @{$self->{currow}};
 }
 

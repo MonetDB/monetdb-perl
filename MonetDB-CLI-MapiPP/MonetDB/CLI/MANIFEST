@@ -3,6 +3,7 @@ MANIFEST
 MANIFEST.SKIP
 Makefile.PL
 README
+Mapi.pm
 MapiPP.pm
 t/00use.t
 t/02cxn.t

@@ -1,6 +1,6 @@
 package MonetDB::CLI;
 
-our $VERSION = '0.03';
+our $VERSION = '1.00';
 
 our @Modules = split /;/, $ENV{PERL_MONETDB_CLI_MODULES}
   || 'MonetDB::CLI::MapiPP';
