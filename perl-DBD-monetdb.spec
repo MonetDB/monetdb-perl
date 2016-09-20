@@ -5,7 +5,7 @@ Summary:	MonetDB perl interface
 
 License:	MPLv2.0
 URL:		http://www.monetdb.org/
-Source0:	https://dev.monetdb.org/hg/monetdb-perl/archive/v%{version}.tar.bz2
+Source0:	http://dev.monetdb.org/perl/monetdb-perl-%{version}.tar.bz2
 
 BuildArch:	noarch
 BuildRequires:	perl
@@ -29,7 +29,7 @@ This package contains the files needed to use MonetDB from a Perl
 program.
 
 %prep
-%autosetup -n monetdb-perl-v%{version}
+%autosetup -n monetdb-perl-%{version}
 
 
 %build
