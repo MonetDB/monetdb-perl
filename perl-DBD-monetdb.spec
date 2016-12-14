@@ -15,7 +15,10 @@ BuildRequires:	perl(ExtUtils::MakeMaker)
 Requires:  perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 Obsoletes:	MonetDB-client-perl
+%if (0%{?fedora} >= 22)
+# no recommendations on old Fedora or RHEL
 Recommends:	MonetDB-SQL-server5
+%endif
 
 %{?perl_default_filter}
 
