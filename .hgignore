@@ -1,0 +1,7 @@
+syntax: glob
+
+MYMETA.*
+**/Makefile
+.exists
+blib
+pm_to_blib
