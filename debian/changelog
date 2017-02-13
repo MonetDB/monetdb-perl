@@ -1,4 +1,10 @@
-libdbd-monetdb-perl (1.0) unstable; urgency=low
+libdbd-monetdb-perl (1.0-2) unstable; urgency=low
+
+  * Added full license text.
+
+ -- Sjoerd Mullender <sjoerd@acm.org>  Mon, 13 Feb 2017 21:37:35 +0100
+
+libdbd-monetdb-perl (1.0-1) unstable; urgency=low
 
   * The Perl interface to MonetDB is now a separate package.
 

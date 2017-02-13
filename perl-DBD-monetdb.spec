@@ -1,6 +1,6 @@
 Name:		perl-DBD-monetdb
 Version:	1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	MonetDB perl interface
 
 License:	MPLv2.0
@@ -47,7 +47,7 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null ';'
 
 
 %files
-%license license.txt
+%license COPYING
 #%doc add-docs-here
 %{perl_vendorlib}/*
 %{_mandir}/man3/*.3*
