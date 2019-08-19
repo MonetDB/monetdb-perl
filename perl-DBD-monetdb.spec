@@ -1,6 +1,6 @@
 Name:		perl-DBD-monetdb
-Version:	1.0
-Release:	2%{?dist}
+Version:	1.1
+Release:	1%{?dist}
 Summary:	MonetDB perl interface
 
 License:	MPLv2.0
@@ -54,5 +54,8 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null ';'
 
 
 %changelog
+* Mon Aug 19 2019 Sjoerd Mullender <sjoerd@acm.org> - 1.1-1
+- Fixed the blocksize in the Mapi protocol.
+
 * Mon Sep 19 2016 Sjoerd Mullender <sjoerd@mullender.nl>
 - The Perl interface to MonetDB is now a separate package.

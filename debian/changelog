@@ -1,3 +1,9 @@
+libdbd-monetdb-perl (1.1-1) unstable; urgency=low
+
+  * Fixed the blocksize in the Mapi protocol.
+
+ -- Sjoerd Mullender <sjoerd@acm.org>  Mon, 19 Aug 2019 21:41:15 +0200
+
 libdbd-monetdb-perl (1.0-2) unstable; urgency=low
 
   * Added full license text.

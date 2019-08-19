@@ -433,12 +433,12 @@ sub putblock {
   # create blocks of data with max 0xffff length,
   # then loop over the data and send it.
   my $out = '';
+  my $blocksize = 8190;       # max len per block
   for my $blk (@blocks) {
     print "OUT:\n$$blk\n" if $ENV{MAPI_TRACE};
     utf8::downgrade($$blk); # deny wide chars
     my $pos        = 0;
     my $last_block = 0;
-    my $blocksize  = 0x7fff >> 1;       # max len per block
     my $data;
 
     while ( !$last_block ) {
