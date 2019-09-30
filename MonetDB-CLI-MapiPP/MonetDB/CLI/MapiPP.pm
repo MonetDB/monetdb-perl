@@ -257,7 +257,7 @@ Copyright 1997 - July 2008 CWI, August 2008 - 2017 MonetDB B.V.
 
 =head2 MonetDB
 
-  Homepage    : http://www.monetdb.org/
+  Homepage    : https://www.monetdb.org/
 
 =head2 Perl modules
 

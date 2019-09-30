@@ -871,7 +871,7 @@ Contributor(s): Steffen Goeldner.
 
 =head2 MonetDB
 
-  Homepage    : http://www.monetdb.org/
+  Homepage    : https://www.monetdb.org/
 
 =head2 Perl modules
 

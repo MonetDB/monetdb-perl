@@ -4,8 +4,8 @@ Priority: optional
 Maintainer: MonetDB BV <info@monetdb.org>
 Build-Depends: debhelper (>= 9~), perl
 Standards-Version: 3.9.6
-Vcs-Hg: http://dev.monetdb.org/hg/monetdb-perl/
-Vcs-Browser: http://dev.monetdb.org/hg/monetdb-perl/
+Vcs-Hg: https://dev.monetdb.org/hg/monetdb-perl/
+Vcs-Browser: https://dev.monetdb.org/hg/monetdb-perl/
 Homepage: https://www.monetdb.org/
 
 Package: libdbd-monetdb-perl

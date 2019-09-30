@@ -4,8 +4,8 @@ Release:	1%{?dist}
 Summary:	MonetDB perl interface
 
 License:	MPLv2.0
-URL:		http://www.monetdb.org/
-Source0:	http://dev.monetdb.org/perl/monetdb-perl-%{version}.tar.bz2
+URL:		https://www.monetdb.org/
+Source0:	https://dev.monetdb.org/perl/monetdb-perl-%{version}.tar.bz2
 
 BuildArch:	noarch
 BuildRequires:	perl
