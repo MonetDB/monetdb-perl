@@ -1,6 +1,6 @@
 Name:		perl-DBD-monetdb
 Version:	1.1
-Release:	2%{?dist}
+Release:	1%{?dist}
 Summary:	MonetDB perl interface
 
 License:	MPLv2.0
@@ -53,7 +53,7 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null ';'
 
 
 %changelog
-* Mon Sep 30 2019 Sjoerd Mullender <sjoerd@acm.org> - 1.1-2
+* Mon Sep 30 2019 Sjoerd Mullender <sjoerd@acm.org> - 1.1-1
 - Removed build dependency for perl-generators.
 
 * Mon Aug 19 2019 Sjoerd Mullender <sjoerd@acm.org> - 1.1-1
