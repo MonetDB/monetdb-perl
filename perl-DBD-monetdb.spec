@@ -1,6 +1,6 @@
 Name:		perl-DBD-monetdb
 Version:	1.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	MonetDB perl interface
 
 License:	MPLv2.0
@@ -9,7 +9,6 @@ Source0:	http://dev.monetdb.org/perl/monetdb-perl-%{version}.tar.bz2
 
 BuildArch:	noarch
 BuildRequires:	perl
-BuildRequires:	perl-generators
 # Correct for lots of packages, other common choices include eg. Module::Build
 BuildRequires:	perl(ExtUtils::MakeMaker)
 Requires:  perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
@@ -54,6 +53,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null ';'
 
 
 %changelog
+* Mon Sep 30 2019 Sjoerd Mullender <sjoerd@acm.org> - 1.1-2
+- Removed build dependency for perl-generators.
+
 * Mon Aug 19 2019 Sjoerd Mullender <sjoerd@acm.org> - 1.1-1
 - Fixed the blocksize in the Mapi protocol.
 
