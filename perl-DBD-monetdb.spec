@@ -1,6 +1,6 @@
 Name:		perl-DBD-monetdb
 Version:	1.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	MonetDB perl interface
 
 License:	MPLv2.0
@@ -17,6 +17,7 @@ Obsoletes:	MonetDB-client-perl
 %if (0%{?fedora} >= 22)
 # no recommendations on old Fedora or RHEL
 Recommends:	MonetDB-SQL-server5
+Recommends:	perl(DBI)
 %endif
 
 %{?perl_default_filter}
