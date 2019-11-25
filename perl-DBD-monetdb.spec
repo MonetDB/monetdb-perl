@@ -54,6 +54,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null ';'
 
 
 %changelog
+* Mon Nov 25 2019 Sjoerd Mullender <sjoerd@acm.org> - 1.1-2
+- Recommend package perl(DBI).
+
 * Mon Sep 30 2019 Sjoerd Mullender <sjoerd@acm.org> - 1.1-1
 - Removed build dependency for perl-generators.
 
