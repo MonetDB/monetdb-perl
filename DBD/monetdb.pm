@@ -102,9 +102,6 @@ sub quote {
     $value = Encode::encode_utf8($value);
 
     for ($value) {
-      s/\\/\\\\/g;
-      s/\n/\\n/g;
-      s/"/\\"/g;
       s/'/''/g;
     }
 
