@@ -1,6 +1,6 @@
 Name:		perl-DBD-monetdb
 Version:	1.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	MonetDB perl interface
 
 License:	MPLv2.0
@@ -12,6 +12,7 @@ BuildRequires:	perl
 # Correct for lots of packages, other common choices include eg. Module::Build
 BuildRequires:	perl(ExtUtils::MakeMaker)
 Requires:  perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:	perl(Digest::SHA)
 
 Obsoletes:	MonetDB-client-perl
 %if (0%{?fedora} >= 22)
