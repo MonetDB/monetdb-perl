@@ -16,7 +16,7 @@ use DBD_TEST();
 use Test::More;
 
 if (defined $ENV{DBI_DSN}) {
-  plan tests => 26;
+  plan tests => 28;
 } else {
   plan skip_all => 'Cannot test without DB info';
 }
@@ -164,6 +164,16 @@ if ( $sth ) {
   is( $err, 0,'all table types selected');
 }
 $sth = undef;
+
+# Bug 2885
+ok($dbh->table_info('', '%', '%'));
+my $stderr;
+eval {
+	local *STDERR;
+	open STDERR, ">>", \$stderr;
+	$sth = $dbh->table_info('foo', '%', '%');
+};
+ok($stderr =~ /not support multiple catalogs/, 'MonetDB does not have catalog')
 
 }
 # -----------------------------------------------------------------------------

@@ -10,13 +10,14 @@ $| = 1;
 
 use strict;
 use warnings;
+use Data::Dumper;
 use DBI();
 use DBD_TEST();
 
 use Test::More;
 
 if (defined $ENV{DBI_DSN}) {
-  plan tests => 15;
+  plan tests => 19;
 } else {
   plan skip_all => 'Cannot test without DB info';
 }
@@ -42,7 +43,7 @@ pass('Database connection created');
   local $dbh->{PrintError} = 0;
   local $dbh->{RaiseError} = 1;
   ok( !eval{ $dbh->do("DROP TABLE $tbl") },"DROP TABLE $tbl");
-  print $@, "\n";
+  ok( $@ =~ /no such table/, "DROP TABLE failed for the right reason");
 }
 ok( $dbh->do("CREATE TABLE $tbl( chr char( 1 ) )"),"CREATE TABLE $tbl");
 
@@ -58,5 +59,14 @@ ok( !( $sth = undef ),'Set sth to undefined');
 #ok( $sth->execute,'Execute');
 #ok( !( $sth = undef ),'Set sth to undefined');
 ok( $dbh->do("DROP TABLE $tbl"),"DROP TABLE $tbl");
+
+# Bug 3235
+ok( $sth = $dbh->prepare("SELECT 0"), "SELECT 0");
+ok( $sth->execute, 'Execute');
+my $res = $sth->fetchall_arrayref;
+$Data::Dumper::Terse = 1;        # don't output names where feasible
+my $dumped = Dumper($res);
+$dumped =~ s/\s+/ /gm;
+ok( $res->[0]->[0] == 0, "yields $dumped");
 
 ok( $dbh->disconnect,'Disconnect');
