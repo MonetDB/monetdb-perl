@@ -33,13 +33,13 @@ ok( $@,"Call to quote() with 0 arguments, error expected: $@");
 
 my $val =
 [
-  [ 1                      , q{'1'}                      ]
-, [ 2                      , q{'2'}                      ]
+  [ 1                      , q{r'1'}                      ]
+, [ 2                      , q{r'2'}                      ]
 , [ undef                  ,   'NULL'                    ]
-, ['NULL'                  , q{'NULL'}                   ]
-, ['ThisIsAString'         , q{'ThisIsAString'}          ]
-, ['This is Another String', q{'This is Another String'} ]
-, ["This isn't unusual"    , q{'This isn''t unusual'}    ]
+, ['NULL'                  , q{r'NULL'}                   ]
+, ['ThisIsAString'         , q{r'ThisIsAString'}          ]
+, ['This is Another String', q{r'This is Another String'} ]
+, ["This isn't unusual"    , q{r'This isn''t unusual'}    ]
 ];
 for ( @$val ) {
   my $val0 = $_->[0];
