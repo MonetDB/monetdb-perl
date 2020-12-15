@@ -9,7 +9,7 @@ $| = 1;
 use strict;
 use warnings;
 
-use Test::More tests => 18;
+use Test::More skip_all => "MIL does not exist anymore";
 
 use MonetDB::CLI;
 

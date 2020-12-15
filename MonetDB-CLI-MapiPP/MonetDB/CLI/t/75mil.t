@@ -9,7 +9,7 @@ $| = 1;
 use strict;
 use warnings;
 
-use Test::More tests => 18;
+use Test::More skip_all => "MIL is dead, long live MAL";
 
 use MonetDB::CLI::MapiPP;
 

@@ -15,15 +15,16 @@ use DBD_TEST();
 
 use Test::More;
 
-if (defined $ENV{DBI_DSN}) {
-  if ($ENV{DBI_DSN} =~ /dbi:monetdb:/) {
-    plan tests => 30;
-  } else {
-    plan skip_all => 'dbi:monetdb: specific tests';
-  }
-} else {
-  plan skip_all => 'Cannot test without DB info';
-}
+# if (defined $ENV{DBI_DSN}) {
+#   if ($ENV{DBI_DSN} =~ /dbi:monetdb:/) {
+#     plan tests => 30;
+#   } else {
+#     plan skip_all => 'dbi:monetdb: specific tests';
+#   }
+# } else {
+#   plan skip_all => 'Cannot test without DB info';
+# }
+plan skip_all => 'MIL no longer exists';
 
 pass('MIL tests');
 
