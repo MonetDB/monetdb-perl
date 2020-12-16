@@ -16,7 +16,7 @@ use DBD_TEST();
 use Test::More;
 
 if (defined $ENV{DBI_DSN}) {
-  plan tests => 4;
+  plan tests => 5;
 } else {
   plan skip_all => 'Cannot test without DB info';
 }
@@ -44,7 +44,17 @@ $r = $sth->fetchall_arrayref();
 $count = scalar(@{$r});
 ok($count % 1000 == 0, "got $count rows");
 
-
-
+# fetch some data using fetchrow_array
+# fetch a lot of rows and see we don't get disconnected halfway, see Bug 2897
+$query = qq{
+	SELECT value as i, value as j, value as k FROM sys.generate_series(0,100);
+};
+$sth = $dbh->prepare($query);
+$sth->execute;
+my $cells = 0;
+while (my @row = $sth->fetchrow_array) {
+	$cells += 1 + $#row;
+}
+is($cells, 300, 'fetch items using fetchrow_array');
 
 ok( $dbh->disconnect,'Disconnect');
