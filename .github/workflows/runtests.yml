@@ -13,11 +13,12 @@ jobs:
 
     - name: Install MonetDB
       run: |
+          set -x
           lsb_release -c -s
           sudo apt-get update -qq
           sudo apt-get install -y software-properties-common curl make
-          curl https://www.monetdb.org/downloads/MonetDB-GPG-KEY | sudo apt-key add -
-          sudo add-apt-repository 'deb http://dev.monetdb.org/downloads/deb/ $(lsb_release -c -s) monetdb'
+          curl -s https://www.monetdb.org/downloads/MonetDB-GPG-KEY | sudo apt-key add -
+          sudo add-apt-repository "deb http://dev.monetdb.org/downloads/deb/ $(lsb_release -c -s) monetdb"
           sudo apt-get update -qq
           sudo apt-get install -y monetdb5-server
 
