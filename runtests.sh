@@ -10,6 +10,7 @@ rm -rf "$DBPATH"
 mkdir "$DBPATH"
 mserver5 --dbpath="$DBPATH/perltestdb" >"$DBPATH/mserver5.log" 2>&1 &
 pid=$!
+# Make sure to kill it when the script ends
 trap "kill -9 $pid 2>/dev/null" EXIT
 
 
