@@ -1,6 +1,11 @@
 name: Run monetdb-perl test suite
 
-on: [push]
+on:
+  push:
+  pull_request:
+  # monday morning 01:23
+  schedule:
+    - cron: 23 1 * * 1
 
 jobs:
   runtests:
@@ -9,10 +14,10 @@ jobs:
       DBFARM: /var/lib/monetdb
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Install MonetDB
-      run: |
+      - name: Install MonetDB
+        run: |
           set -x -e
           lsb_release -c -s
           sudo apt-get -qq update
@@ -22,7 +27,7 @@ jobs:
           sudo apt-get -qq update
           sudo apt-get -qq install -qqy monetdb5-server
 
-    - name: Run Unit-Tests
-      run: |
+      - name: Run Unit-Tests
+        run: |
           set -x -e
           ./runtests.sh
