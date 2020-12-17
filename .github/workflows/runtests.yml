@@ -1,0 +1,27 @@
+name: Run monetdb-perl test suite
+
+on: [push]
+
+jobs:
+  runtests:
+    runs-on: ubuntu-latest
+    env:
+      DBFARM: /var/lib/monetdb
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install MonetDB
+      run: |
+          lsb_release -c -s
+          sudo apt-get update -qq
+          sudo apt-get install -y software-properties-common curl make
+          curl https://www.monetdb.org/downloads/MonetDB-GPG-KEY | sudo apt-key add -
+          sudo add-apt-repository 'deb http://dev.monetdb.org/downloads/deb/ $(lsb_release -c -s) monetdb'
+          sudo apt-get update -qq
+          sudo apt-get install -y monetdb5-server
+
+    - name: Run Unit-Tests
+      run: |
+          ./build.sh
+          ./runtests.sh
