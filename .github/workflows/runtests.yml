@@ -16,13 +16,13 @@ jobs:
           set -x -e
           lsb_release -c -s
           sudo apt-get update -qq
-          sudo apt-get install -y software-properties-common curl make
+          sudo apt-get install -qqy software-properties-common curl make
           curl -s https://www.monetdb.org/downloads/MonetDB-GPG-KEY | sudo apt-key add -
           sudo add-apt-repository "deb http://dev.monetdb.org/downloads/deb/ $(lsb_release -c -s) monetdb"
           sudo apt-get update -qq
-          sudo apt-get install -y monetdb5-server
+          sudo apt-get install -qqy monetdb5-server
 
     - name: Run Unit-Tests
       run: |
           set -x -e
-          ./build.sh
+          ./runtests.sh
