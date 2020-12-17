@@ -24,6 +24,5 @@ jobs:
 
     - name: Run Unit-Tests
 	  run: |
-	    set -x -e
-          ./build.sh
-        #   ./runtests.sh
+	      set -x -e
+        ./build.sh
