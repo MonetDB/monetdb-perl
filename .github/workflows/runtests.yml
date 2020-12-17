@@ -16,7 +16,7 @@ jobs:
           set -x -e
           lsb_release -c -s
           sudo apt-get -qq update
-          sudo apt-get -qq install y software-properties-common curl make libdbi-perl
+          sudo apt-get -qq install -y software-properties-common curl make libdbi-perl
           curl -s https://www.monetdb.org/downloads/MonetDB-GPG-KEY | sudo apt-key add -
           sudo add-apt-repository "deb http://dev.monetdb.org/downloads/deb/ $(lsb_release -c -s) monetdb"
           sudo apt-get -qq update
