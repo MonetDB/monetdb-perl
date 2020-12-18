@@ -23,6 +23,13 @@ jobs:
 
       - uses: actions/checkout@v2
 
+      - name: Install libdbi-perl
+        run: |
+          set -x -e
+          lsb_release -c -s
+          sudo apt-get -qq update
+          sudo apt-get -qq install -y libdbi-perl
+
       - name: Run Unit-Tests
         run: |
           set -x -e
