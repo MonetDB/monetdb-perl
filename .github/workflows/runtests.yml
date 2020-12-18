@@ -11,21 +11,17 @@ jobs:
   runtests:
     runs-on: ubuntu-latest
     env:
-      DBFARM: /var/lib/monetdb
+      DBI_DSN: dbi:monetdb:database=demo
+
+    services:
+      monetdb:
+        image: monetdb/monetdb:latest
+        ports:
+          - 50000:50000
 
     steps:
-      - uses: actions/checkout@v2
 
-      - name: Install MonetDB
-        run: |
-          set -x -e
-          lsb_release -c -s
-          sudo apt-get -qq update
-          sudo apt-get -qq install -y software-properties-common curl make libdbi-perl
-          curl -s https://www.monetdb.org/downloads/MonetDB-GPG-KEY | sudo apt-key add -
-          sudo add-apt-repository "deb http://dev.monetdb.org/downloads/deb/ $(lsb_release -c -s) monetdb"
-          sudo apt-get -qq update
-          sudo apt-get -qq install -qqy monetdb5-server
+      - uses: actions/checkout@v2
 
       - name: Run Unit-Tests
         run: |
