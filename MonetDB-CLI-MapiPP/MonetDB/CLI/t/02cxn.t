@@ -20,9 +20,10 @@ my $port = $ENV{MONETDB_PORT} || 50000;
 my $user = $ENV{MONETDB_USER} || 'monetdb';
 my $pass = $ENV{MONETDB_PASS} || 'monetdb';
 my $lang = 'sql';
+my $database = $ENV{MONETDB_DATABASE} || 'demo';
 
 my $cxn = eval {
-  MonetDB::CLI::MapiPP->connect( $host, $port, $user, $pass, $lang )
+  MonetDB::CLI::MapiPP->connect( $host, $port, $user, $pass, $lang, $database )
 };
 ok(!$@,'connect') or print "# $@";
 ok( $cxn,"Connection object: $cxn");
