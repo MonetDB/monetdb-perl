@@ -20,7 +20,7 @@ jobs:
 
     services:
       monetdb:
-        image: ${{monetdb_image}}
+        image: ${{ matrix.monetdb_image }}
         ports:
           - 50000:50000
 
