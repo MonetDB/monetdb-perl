@@ -233,7 +233,7 @@ sub getRow {
   if ($chars[0] eq '!') {
     $self->error($row);
     my $i = 1;
-    while ($self->{lines}[$i] =~ '!') {
+    while (defined $self->{lines}[$i] and $self->{lines}[$i] =~ '!') {
       $self->error($self->{lines}[$i]);
       $i++;
     }
@@ -288,6 +288,19 @@ sub getBlock {
   $self->{hdrs} = [];
 
   if ($chars[0] eq '&') {
+    # check for any line containing an error message in this block
+    my $founderr = 0;
+    foreach (@{$self->{lines}}) {
+      if (substr($_, 0, 1) eq "!"){
+        $self->error($_);
+        $founderr++;
+      }
+    }
+    if ($founderr > 0) {
+      $self->{active} = 0;
+      return -1;
+    }
+
     if ($chars[1] eq '1' || $chars[1] eq 6) {
       if ($chars[1] eq '1') {
         # &1 id result-count nr-cols rows-in-this-block

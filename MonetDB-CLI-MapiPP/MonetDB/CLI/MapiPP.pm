@@ -27,7 +27,7 @@ sub connect
   my ($class, $host, $port, $user, $pass, $lang, $db) = @_;
 
   my $h = new MonetDB::CLI::Mapi($host, $port, $user, $pass, $lang, $db, 0)
-  	or die "Making connection failed: $@";
+    or die "Making connection failed: $@";
 
   bless { h => $h },'MonetDB::CLI::MapiPP::Cxn';
 }
@@ -56,7 +56,9 @@ sub DESTROY
 {
   my ($self) = @_;
 
-  $self->{h}->disconnect();
+  if (defined $self->{h}) {
+    $self->{h}->disconnect();
+  }
 
   return;
 }

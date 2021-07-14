@@ -457,7 +457,7 @@ SQL
     $sql .= " order by uk_table_schem, uk_table_name, fk_table_schem, fk_table_name, ordinal_position\n";
     my $sth = $dbh->prepare($sql) or return;
     $sth->execute(@bv) or return;
-	$dbh->set_err(0,"Catalog parameters c1 and c2 have to be an empty strings, as MonetDB does not support multiple catalogs") if $c1 ne "" || $c2 ne "";
+    $dbh->set_err(0,"Catalog parameters c1 and c2 have to be an empty strings, as MonetDB does not support multiple catalogs") if $c1 ne "" || $c2 ne "";
     return $sth;
 }
 
