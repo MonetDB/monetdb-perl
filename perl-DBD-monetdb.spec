@@ -1,6 +1,6 @@
 Name:		perl-DBD-monetdb
-Version:	1.1
-Release:	3%{?dist}
+Version:	1.2
+Release:	1%{?dist}
 Summary:	MonetDB perl interface
 
 License:	MPLv2.0

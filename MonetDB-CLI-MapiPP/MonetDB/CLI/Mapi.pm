@@ -12,7 +12,7 @@ use IO::Socket;
 use Digest::MD5 'md5_hex';
 use Digest::SHA qw(sha1_hex sha256_hex sha512_hex);
 
-our $VERSION = '1.1';
+our $VERSION = '1.2';
 
 sub pass_chal {
   my ($passwd, @challenge) = @_;

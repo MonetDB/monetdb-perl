@@ -5,7 +5,7 @@ use DBI();
 use Encode();
 use MonetDB::CLI();
 
-our $VERSION = '1.1';
+our $VERSION = '1.2';
 our $drh = undef;
 
 require DBD::monetdb::GetInfo;
