@@ -3,19 +3,19 @@
 CONFIG =
 
 all: MonetDB-CLI-MapiPP/MonetDB/CLI/Makefile MonetDB-CLI/MonetDB/Makefile DBD/Makefile
-	cd MonetDB-CLI-MapiPP/MonetDB/CLI; $(MAKE)
-	cd MonetDB-CLI/MonetDB; $(MAKE)
-	cd DBD; $(MAKE)
+	$(MAKE) -C MonetDB-CLI-MapiPP/MonetDB/CLI
+	$(MAKE) -C MonetDB-CLI/MonetDB
+	$(MAKE) -C DBD
 
 install: all
-	cd MonetDB-CLI-MapiPP/MonetDB/CLI; $(MAKE) install DESTDIR=$(DESTDIR)
-	cd MonetDB-CLI/MonetDB; $(MAKE) install DESTDIR=$(DESTDIR)
-	cd DBD; $(MAKE) install DESTDIR=$(DESTDIR)
+	$(MAKE) -C MonetDB-CLI-MapiPP/MonetDB/CLI install DESTDIR=$(DESTDIR)
+	$(MAKE) -C MonetDB-CLI/MonetDB install DESTDIR=$(DESTDIR)
+	$(MAKE) -C DBD install DESTDIR=$(DESTDIR)
 
 pure_install: all
-	cd MonetDB-CLI-MapiPP/MonetDB/CLI; $(MAKE) pure_install DESTDIR=$(DESTDIR)
-	cd MonetDB-CLI/MonetDB; $(MAKE) pure_install DESTDIR=$(DESTDIR)
-	cd DBD; $(MAKE) pure_install DESTDIR=$(DESTDIR)
+	$(MAKE) -C MonetDB-CLI-MapiPP/MonetDB/CLI pure_install DESTDIR=$(DESTDIR)
+	$(MAKE) -C MonetDB-CLI/MonetDB pure_install DESTDIR=$(DESTDIR)
+	$(MAKE) -C DBD pure_install DESTDIR=$(DESTDIR)
 
 clean:
 	cd MonetDB-CLI-MapiPP/MonetDB/CLI; rm -rf blib MYMETA.* pm_to_blib Makefile
