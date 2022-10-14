@@ -16,7 +16,7 @@ use DBD_TEST();
 use Test::More;
 
 if (defined $ENV{DBI_DSN}) {
-  plan tests => 6;
+  plan tests => 7;
 } else {
   plan skip_all => 'Cannot test without DB info';
 }
@@ -37,6 +37,8 @@ my $data =
 ok( tab_insert( $dbh, $data ),'Insert test data');
 
 ok( tab_select( $dbh ),'Select test data');
+
+ok( tab_bind_question_marks( $dbh ), 'Bind data with question marks');
 
 ok( DBD_TEST::tab_delete( $dbh ),'Drop test table');
 
@@ -62,6 +64,43 @@ sub tab_select
     }
   }
   return 1;
+}
+
+sub tab_bind_question_marks
+{
+	my $dbh = shift;
+
+	my $sth = $dbh->prepare("SELECT ? AS x, ? AS y");
+	unless ( $sth ) {
+		print $DBI::errstr;
+		return 0;
+	}
+
+	# without question marks
+	$sth->execute("foo", "bar");
+	my($x, $y) = $sth->fetchrow_array;
+	if ($x ne "foo") {
+		print "# when binding foo and bar, expected foo, got '$x'";
+		return undef;
+	}
+	if ($y ne "bar") {
+		print "# when binding foo and bar, expected bar, got '$y'";
+		return undef;
+	}
+
+	# with question marks
+	$sth->execute("foo?", "bar?");
+	($x, $y) = $sth->fetchrow_array;
+	if ($x ne "foo?") {
+		print "# when binding foo? and bar?, expected foo?, got '$x'";
+		return undef;
+	}
+	if ($y ne "bar?") {
+		print "# when binding foo? and bar?, expected bar?, got '$y'";
+		return undef;
+	}
+
+	return 1;
 }
 
 sub tab_insert

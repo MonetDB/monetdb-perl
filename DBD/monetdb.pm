@@ -118,16 +118,50 @@ sub quote {
 }
 
 
-sub _count_param {
-    my $statement = shift;
-    my $num = 0;
+sub _split_query_params {
+	my $query = shift;
 
-    $statement =~ s{
-        ' (?: \\. | [^\\']++ )*+ ' |
-        " (?: \\. | [^\\"]++ )*+ '
-    }{}gx;
+	# print STDERR "QUERY «$query»\n";
 
-    return $statement =~ tr/?/?/;
+	my @parts;
+	my $expect_placeholder = 0;
+	while ($query =~ m {(
+		[?]
+		| (?:
+			-- [^\n]*
+			| [^?'eErR"]
+			| [eE]? ' (?: \\. | [^\\']++ )*+ '
+			|  [rR] ' (?: '' | [^']++ )*+ '
+			|       " (?: "" | [^"]++ )*+ "
+			| [eE]? ' (?: \\. | [^\\']++ )*+ $
+			|  [rR] ' (?: '' | [^']++ )*+ $
+			|       " (?: "" | [^"]++ )*+ $
+			| \w+
+		)++
+	)}gsx) {
+		# print STDERR " $expect_placeholder TOK  «$1»\n";
+		if ($1 eq '?') {
+			push @parts, '' unless $expect_placeholder;
+			$expect_placeholder = 0;
+		} else {
+			die "internal error: expecting placeholder" if $expect_placeholder;
+			push @parts, $1;
+			$expect_placeholder = 1;
+		}
+	}
+
+	my $tail;
+	if ($expect_placeholder) {
+		$tail = pop @parts;
+	} else {
+		$tail = '';
+	}
+
+	# for (@parts) {
+	# 	print STDERR " PART «$_»\n";
+	# }
+	# print STDERR " TAIL «$tail»\n";
+	return \@parts, $tail;
 }
 
 
@@ -140,12 +174,16 @@ sub prepare {
 
     my ($outer, $sth) = DBI::_new_sth($dbh, { Statement => $statement });
 
-    $sth->STORE('NUM_OF_PARAMS', _count_param($statement));
+	my ($parts, $tail) = _split_query_params($statement);
+
+    $sth->STORE('NUM_OF_PARAMS', scalar(@{$parts}));
 
     $sth->{monetdb_hdl} = $hdl;
     $sth->{monetdb_params} = [];
     $sth->{monetdb_types} = [];
     $sth->{monetdb_rows} = -1;
+	$sth->{monetdb_parts} = $parts;
+	$sth->{monetdb_tail} = $tail;
 
     return $outer;
 }
@@ -541,7 +579,6 @@ sub bind_param {
 
 sub execute {
     my($sth, @bind_values) = @_;
-    my $statement = $sth->{Statement};
     my $dbh = $sth->{Database};
 
     $sth->STORE('Active', 0 );  # we don't need to call $sth->finish because
@@ -549,15 +586,30 @@ sub execute {
 
     $sth->bind_param($_, $bind_values[$_-1]) or return for 1 .. @bind_values;
 
-    my $params = $sth->{monetdb_params};
-    my $num_of_params = $sth->FETCH('NUM_OF_PARAMS');
-    return $sth->set_err(-1, @$params ." values bound when $num_of_params expected")
-        unless @$params == $num_of_params;
+	my $parts = $sth->{monetdb_parts};
+	my $nparts = @$parts;
+	my $tail = $sth->{monetdb_tail};
 
-    for ( 1 .. $num_of_params ) {
-        my $quoted_param = $dbh->quote($params->[$_-1], $sth->{monetdb_types}[$_-1]);
-        $statement =~ s/\?/$quoted_param/;  # TODO: '?' inside quotes/comments
-    }
+    my $params = $sth->{monetdb_params};
+	my $nparams = @$params;
+	if ($nparams != $nparts) {
+		return $sth->set_err(-1, "$nparams value bound while $nparts expected");
+	}
+
+	my $statement;
+	if ($nparts > 0) {
+		my @stmt = ();
+		for (1 .. $nparts) {
+	        my $quoted_param = $dbh->quote($params->[$_-1], $sth->{monetdb_types}[$_-1]);
+			push @stmt, $parts->[$_ - 1], $quoted_param;
+		}
+		push @stmt, $tail;
+		$statement = join('', @stmt);
+	} else {
+		$statement = $tail;
+	}
+
+	# print STDERR "# $statement\n";
     $sth->trace_msg("    -- Statement: $statement\n", 5);
 
     my $hdl = $sth->{monetdb_hdl};
