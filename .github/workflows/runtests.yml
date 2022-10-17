@@ -3,9 +3,6 @@ name: Run monetdb-perl test suite
 on:
   push:
   pull_request:
-  # monday morning 01:23
-  schedule:
-    - cron: 23 1 * * 1
 
 jobs:
   runtests:
