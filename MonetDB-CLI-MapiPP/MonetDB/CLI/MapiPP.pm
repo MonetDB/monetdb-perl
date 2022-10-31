@@ -6,7 +6,7 @@ use MonetDB::CLI::Mapi;
 use strict;
 use warnings;
 
-our $VERSION = '1.2';
+our $VERSION = '1.3';
 
 
 my %unescape = ( n => "\n", t => "\t", r => "\r", f => "\f");
